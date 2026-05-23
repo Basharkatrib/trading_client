@@ -47,7 +47,9 @@ export default function Navbar() {
       console.log('aud:', idTokenResult.claims.aud, 'iss:', idTokenResult.claims.iss);
 
       // Call backend Laravel endpoint
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || "https://cadeau.test"}/api/auth/firebase/google-sign-in`, {
+      const rawApiBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://trading.test/api";
+      const cleanApiBase = rawApiBase.endsWith("/api") ? rawApiBase : `${rawApiBase}/api`;
+      const res = await fetch(`${cleanApiBase}/auth/firebase/google-sign-in`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id_token: idToken }),
